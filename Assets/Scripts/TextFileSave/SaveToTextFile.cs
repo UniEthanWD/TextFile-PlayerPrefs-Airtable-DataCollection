@@ -76,6 +76,30 @@ public class SaveToTextFile : MonoBehaviour
         }
     }
 
+    public void DeleteDirectory()
+    {
+        if (folderNameInputField.text == "")
+        {
+            folderNameInputFeedback.text = "Enter a folder name";
+        }
+        else
+        {
+            customFolderName = folderNameInputField.text;
+            directoryName = Application.persistentDataPath + "/" + customFolderName + "/";
+
+            if (Directory.Exists(directoryName))
+            {
+                Directory.Delete(directoryName);
+                folderNameInputFeedback.text = "The folder has been found and deleted";
+            }
+            else
+            {
+                folderNameInputFeedback.text = "Folder by that name does not exsist";
+                //Directory.CreateDirectory(directoryName);
+            }
+        }
+    }
+
     public void CheckForTextFile()
     {
         customFileName = fileNameInputField.text;
@@ -133,6 +157,37 @@ public class SaveToTextFile : MonoBehaviour
 
             fileNameInputFeedback.text = "This file has been saved to your custom folder @ " + textDocumentName;
             Debug.Log("This file has been saved to your custom folder @ " + textDocumentName);
+        }
+    }
+
+    public void DeleteTextFile()
+    {
+        customFileName = fileNameInputField.text;
+
+        if (customFileName == null || customFileName == "")
+        {
+            fileNameInputFeedback.text = "Enter a file name";
+        }
+        else
+        {
+            string textDocumentName = directoryName + customFileName + ".txt";
+
+            if (File.Exists(textDocumentName))
+            {
+                File.Delete(textDocumentName);
+                fileNameInputFeedback.text = "The file " + customFileName + " has been found and deleted";
+            }
+            else
+            {
+                if (directoryName == null || directoryName == "")
+                {
+                    fileNameInputFeedback.text = "There is no file found called " + customFileName + " @ " + Application.persistentDataPath;
+                }
+                else
+                {
+                    fileNameInputFeedback.text = "There is no file found called " + customFileName + " @ " + directoryName;
+                }
+            }
         }
     }
 
@@ -222,9 +277,6 @@ public class SaveToTextFile : MonoBehaviour
         }
     }
 
-    public void ClearTextFile()
-    {
 
-    }
 
 }
