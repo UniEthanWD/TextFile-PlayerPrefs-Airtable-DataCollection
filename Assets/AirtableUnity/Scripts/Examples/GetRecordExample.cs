@@ -9,7 +9,6 @@ public class GetRecordExample : MonoBehaviour
     [Header("Record Id")] 
     public string TableName;
     public string RecordId;
-    public AirtableController airtableController;
 
 
     [ContextMenu("Get Record")]

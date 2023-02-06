@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-public class PlayerPrefsExample : MonoBehaviour
+public class PlayerPrefsStudent : MonoBehaviour
 {
     [Header ("PlayerPrefsInteger")]
     public int intForPlayerPrefs;

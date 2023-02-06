@@ -16,9 +16,8 @@ public class AirtableController : MonoBehaviour
     public SceneController sceneController;
 
     [Header("Feedback Strings")]
-    public string userFeedback;
 
-    private string dataToParse;
+    public string dataToParse;
     private string dataRequestToLoad;
 
 
@@ -32,17 +31,18 @@ public class AirtableController : MonoBehaviour
         StartCoroutine("LoadGameDataCoroutine");
     }
 
-
+    //sets our custom TableName, RecordID and NewRecordJson in the updateRecord script, then call the UpdateAirtable function, which requires those variables (our 'field' here is pointing to PlayerName in the Json)
     public void UpdatePlayerName()
     {
         updateRecordExample.TableName = "PlayerData";
         updateRecordExample.RecordId = "rec8TvVzZtJ8JbJI7";
         updateRecordExample.NewRecordJson = "{\"fields\": {" +
-                            "\"PlayerName\":\"" + sceneController.playerName + "\"" +
-                            "}}";
+                                            "\"PlayerName\":\"" + sceneController.playerName + "\"" +
+                                            "}}";
         updateRecordExample.UpdateAirtableRecord();
     }
 
+    //sets our custom TableName, RecordID and NewRecordJson in the updateRecord script, then call the UpdateAirtable function, which requires those variables (our 'field' here is pointing to VolumePref in the Json)
     public void UpdateVolumePref()
     {
         updateRecordExample.TableName = "PlayerData";
@@ -53,62 +53,62 @@ public class AirtableController : MonoBehaviour
         updateRecordExample.UpdateAirtableRecord();
     }
 
+    //doing the same as the above 2 functions, but combined
     public void UpdatePlayerData()
     {
         updateRecordExample.TableName = "PlayerData";
         updateRecordExample.RecordId = "rec8TvVzZtJ8JbJI7";
         updateRecordExample.NewRecordJson = "{\"fields\": {" +
-                                    "\"PlayerName\":\"" + sceneController.playerName + "\", " +
-                                    "\"VolumePref\":\"" + sceneController.volume + "\"" +
-                                    "}}";
+                                            "\"PlayerName\":\"" + sceneController.playerName + "\", " +
+                                            "\"VolumePref\":\"" + sceneController.volume + "\"" +
+                                            "}}";
         updateRecordExample.UpdateAirtableRecord();
     }
 
+    //doing similar to the update, but this time we are receiving. we are then storing the response in the dataToParse variable so that we can get info back from the Json string
+    //that we can use as strings
     public IEnumerator LoadPlayerInfoCoroutine()
     {
-        dataRequestToLoad = "playerInfo";
         getRecordExample.TableName = "PlayerData";
         getRecordExample.RecordId = "rec8TvVzZtJ8JbJI7";
         getRecordExample.GetRecord();
         yield return new WaitForSeconds(0.75f);
-        userFeedback = UnityWebRequestExtension.getResponse;
-        dataToParse = userFeedback;
+        dataToParse = UnityWebRequestExtension.getResponse;
+        Debug.Log(dataToParse);
         JSONParse();
     }
 
-    public IEnumerator LoadGameDataCoroutine()
-    {
-        userFeedback = "Loading...";
-        dataRequestToLoad = "gameData";
-        getRecordExample.TableName = "GameData";
-        getRecordExample.RecordId = "rec6kEe6pFk7yv6lE";
-        getRecordExample.GetRecord();
-        yield return new WaitForSeconds(0.5f);
-        userFeedback = UnityWebRequestExtension.getResponse;
-        dataToParse = userFeedback;
-        JSONParse();
-    }
-
+    //this function turns the returning Json string from airtable, puts it back into Json format, then looks at each field by name and gets the value - this is then given back to the sceneController script
     public void JSONParse()
     {
         string source = dataToParse;
-        dynamic data = JObject.Parse(source);
+        dynamic data = JObject.Parse(source);       
         
-        if(dataRequestToLoad == "playerInfo")
-        {
-            sceneController.playerName = data.fields.PlayerName;
-            sceneController.volume = data.fields.VolumePref;
+        sceneController.playerName = data.fields.PlayerName;
+        sceneController.volume = data.fields.VolumePref;
 
-            Debug.Log("Player Name: " + data.fields.PlayerName);
-            Debug.Log("Volume Preference: " + data.fields.VolumePref);
-        }
+        //Debug.Log("Player Name: " + data.fields.PlayerName);
+        //Debug.Log("Volume Preference: " + data.fields.VolumePref);
         
-        if(dataRequestToLoad == "gameData")
-        {
-            Debug.Log("Coins: " + data.fields.Coins);
-            Debug.Log("Time Played: " + data.fields.TimePlayed);
-            Debug.Log("Health: " + data.fields.Health);
-            Debug.Log("Score: " + data.fields.Score);
-        }
+    }
+
+    //tells create record the table name and feeds it the Json string containing the data from the sceneController script, then initiates the createAirtableRecordFunction
+    public void CreateGameDataEntry()
+    {
+        createRecord.TableName = "GameData";
+        createRecord.NewRecordJson = "{\"fields\": {" +
+                                    "\"Coins\":\"" + sceneController.coins + "\", " +
+                                    "\"TimePlayed\":\"" + sceneController.timePlayed + "\", " +
+                                    "\"Health\":\"" + sceneController.health + "\", " +
+                                    "\"Score\":\"" + sceneController.score + "\"" +
+                                    "}}";
+        createRecord.CreateAirtableRecord();
+    }
+
+    //sets the table we want to look at, then request all the data from that table
+    public void ListAllEntries()
+    {
+        listRecords.TableName = "GameData";
+        listRecords.GetAirtableTableRecords();
     }
 }

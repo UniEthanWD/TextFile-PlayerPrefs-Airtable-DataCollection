@@ -20,6 +20,18 @@ public class SceneController : MonoBehaviour
     public TMP_Text volumeLevel;
     public string volume;
 
+    [Header("Game Data")]
+    public TMP_InputField coinInputField;
+    public TMP_InputField timePlayedInputField;
+    public TMP_InputField healthInputField;
+    public TMP_InputField scoreInputField;
+    public string coins;
+    public string timePlayed;
+    public string health;
+    public string score;
+
+
+    //sets playerName variable to input fields value, then calls custom function from airtable controller
     public void SavePlayerName()
     {
         playerName = playerNameInputField.text;
@@ -31,6 +43,7 @@ public class SceneController : MonoBehaviour
         StartCoroutine("LoadPlayerNameCoroutine");
     }
 
+    //sets volume variable to slider value and calls custom function from airtable controller
     public void SaveVolumeLevel()
     {
         volume = volumeSlider.value.ToString();
@@ -42,6 +55,7 @@ public class SceneController : MonoBehaviour
         StartCoroutine("LoadVolumeLevelCoroutine");
     }
 
+    //sets both playerName and volume values
     public void SavePlayerData()
     {
         playerName = playerNameInputField.text;
@@ -55,6 +69,7 @@ public class SceneController : MonoBehaviour
         StartCoroutine("LoadVolumeLevelCoroutine");
     }
 
+    //calls custom load info function in airtableController and waits 1 second for response from airtable server before setting playerName to airtable value
     public IEnumerator LoadPlayerNameCoroutine()
     {
         airtableController.LoadPlayerInfo();
@@ -62,6 +77,7 @@ public class SceneController : MonoBehaviour
         playerNameInputField.text = playerName;
     }
 
+    //calls custom load info function in airtableController and waits 1 second for response from airtable server before setting playerName to airtable value
     public IEnumerator LoadVolumeLevelCoroutine()
     {
         airtableController.LoadPlayerInfo();
@@ -69,10 +85,34 @@ public class SceneController : MonoBehaviour
         volumeSlider.value = float.Parse(volume);
     }
 
+    //sets coin value to what is in the input field (used by inputFields "onEndEdit" event)
+    public void UpdateCoinValue()
+    {
+        coins = coinInputField.text;
+    }
+
+    //sets timePlayed value to what is in the input field (used by inputFields "onEndEdit" event)
+    public void UpdateTimePlayedValue()
+    {
+        timePlayed = timePlayedInputField.text;
+    }
+
+    //sets health value to what is in the input field (used by inputFields "onEndEdit" event)
+    public void UpdateHealthValue()
+    {
+        health = healthInputField.text;
+    }
+
+    //sets score value to what is in the input field (used by inputFields "onEndEdit" event)
+    public void UpdateScoreValue()
+    {
+        score = scoreInputField.text;
+    }
 
     // Update is called once per frame
     void Update()
     {
+        //ensures the text feedback is always the sliders value
         volumeLevel.text = volumeSlider.value.ToString();
     }
 }
