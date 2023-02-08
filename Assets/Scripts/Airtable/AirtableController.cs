@@ -15,8 +15,15 @@ public class AirtableController : MonoBehaviour
     public ListRecords listRecords;
     public SceneController sceneController;
 
-    [Header("Feedback Strings")]
+    [Header("PlayerData")]
+    public string playerDataTableName;
+    public string playerDataRecordID;
 
+    [Header("GameData")]
+    public string gameDataTableName;
+
+
+    [Header("Feedback Strings")]
     public string dataToParse;
     private string dataRequestToLoad;
 
@@ -34,8 +41,8 @@ public class AirtableController : MonoBehaviour
     //sets our custom TableName, RecordID and NewRecordJson in the updateRecord script, then call the UpdateAirtable function, which requires those variables (our 'field' here is pointing to PlayerName in the Json)
     public void UpdatePlayerName()
     {
-        updateRecordExample.TableName = "PlayerData";
-        updateRecordExample.RecordId = "rec8TvVzZtJ8JbJI7";
+        updateRecordExample.TableName = playerDataTableName;
+        updateRecordExample.RecordId = playerDataRecordID;
         updateRecordExample.NewRecordJson = "{\"fields\": {" +
                                             "\"PlayerName\":\"" + sceneController.playerName + "\"" +
                                             "}}";
@@ -45,8 +52,8 @@ public class AirtableController : MonoBehaviour
     //sets our custom TableName, RecordID and NewRecordJson in the updateRecord script, then call the UpdateAirtable function, which requires those variables (our 'field' here is pointing to VolumePref in the Json)
     public void UpdateVolumePref()
     {
-        updateRecordExample.TableName = "PlayerData";
-        updateRecordExample.RecordId = "rec8TvVzZtJ8JbJI7";
+        updateRecordExample.TableName = playerDataTableName;
+        updateRecordExample.RecordId = playerDataRecordID;
         updateRecordExample.NewRecordJson = "{\"fields\": {" +
                                     "\"VolumePref\":\"" + sceneController.volume + "\"" +
                                     "}}";
@@ -56,8 +63,8 @@ public class AirtableController : MonoBehaviour
     //doing the same as the above 2 functions, but combined
     public void UpdatePlayerData()
     {
-        updateRecordExample.TableName = "PlayerData";
-        updateRecordExample.RecordId = "rec8TvVzZtJ8JbJI7";
+        updateRecordExample.TableName = playerDataTableName;
+        updateRecordExample.RecordId = playerDataRecordID;
         updateRecordExample.NewRecordJson = "{\"fields\": {" +
                                             "\"PlayerName\":\"" + sceneController.playerName + "\", " +
                                             "\"VolumePref\":\"" + sceneController.volume + "\"" +
@@ -69,8 +76,8 @@ public class AirtableController : MonoBehaviour
     //that we can use as strings
     public IEnumerator LoadPlayerInfoCoroutine()
     {
-        getRecordExample.TableName = "PlayerData";
-        getRecordExample.RecordId = "rec8TvVzZtJ8JbJI7";
+        getRecordExample.TableName = playerDataTableName;
+        getRecordExample.RecordId = playerDataRecordID;
         getRecordExample.GetRecord();
         yield return new WaitForSeconds(0.75f);
         dataToParse = UnityWebRequestExtension.getResponse;
@@ -95,7 +102,7 @@ public class AirtableController : MonoBehaviour
     //tells create record the table name and feeds it the Json string containing the data from the sceneController script, then initiates the createAirtableRecordFunction
     public void CreateGameDataEntry()
     {
-        createRecord.TableName = "GameData";
+        createRecord.TableName = gameDataTableName;
         createRecord.NewRecordJson = "{\"fields\": {" +
                                     "\"Coins\":\"" + sceneController.coins + "\", " +
                                     "\"TimePlayed\":\"" + sceneController.timePlayed + "\", " +
@@ -108,7 +115,7 @@ public class AirtableController : MonoBehaviour
     //sets the table we want to look at, then request all the data from that table
     public void ListAllEntries()
     {
-        listRecords.TableName = "GameData";
+        listRecords.TableName = gameDataTableName;
         listRecords.GetAirtableTableRecords();
     }
 }
