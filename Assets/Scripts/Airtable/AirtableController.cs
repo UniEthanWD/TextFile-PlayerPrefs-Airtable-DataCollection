@@ -55,8 +55,8 @@ public class AirtableController : MonoBehaviour
         updateRecordExample.TableName = playerDataTableName;
         updateRecordExample.RecordId = playerDataRecordID;
         updateRecordExample.NewRecordJson = "{\"fields\": {" +
-                                    "\"VolumePref\":\"" + sceneController.volume + "\"" +
-                                    "}}";
+                                            "\"VolumePref\":\"" + sceneController.volume + "\"" +
+                                            "}}";
         updateRecordExample.UpdateAirtableRecord();
     }
 
@@ -93,9 +93,6 @@ public class AirtableController : MonoBehaviour
         
         sceneController.playerName = data.fields.PlayerName;
         sceneController.volume = data.fields.VolumePref;
-
-        //Debug.Log("Player Name: " + data.fields.PlayerName);
-        //Debug.Log("Volume Preference: " + data.fields.VolumePref);
         
     }
 
