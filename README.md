@@ -65,6 +65,3 @@ This project is licensed under the [MIT License](LICENSE).
 
 
 **Disclaimer:** This project is not officially affiliated with Unity Technologies or Airtable. It's a community-driven initiative to demonstrate data collection using Unity, Airtable integration, PlayerPrefs, and local text file storage.
-```
-
-Make sure to include relevant screenshots, create or update the `InstallationGuide.md`, `CONTRIBUTING.md`, and license file (`LICENSE`) as mentioned earlier, and adjust the placeholders accordingly.
