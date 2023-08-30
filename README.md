@@ -1,6 +1,3 @@
-Certainly! I've integrated the information about PlayerPrefs examples and saving to a text file into the README template. Here's the updated template:
-
-```markdown
 # Unity Data Collection and Storage with Airtable and PlayerPrefs
 
 ![Project Logo](project_logo.png) <!-- Add your project logo or relevant image -->
@@ -66,7 +63,6 @@ This project is licensed under the [MIT License](LICENSE).
 - Hat tip to [Airtable](https://www.airtable.com) for providing an excellent data storage solution.
 - Thanks to the Unity community for their support and resources.
 
----
 
 **Disclaimer:** This project is not officially affiliated with Unity Technologies or Airtable. It's a community-driven initiative to demonstrate data collection using Unity, Airtable integration, PlayerPrefs, and local text file storage.
 ```
