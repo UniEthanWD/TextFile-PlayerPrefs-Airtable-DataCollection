@@ -87,9 +87,13 @@ public class AirtableController : MonoBehaviour
         sceneController.playerName = data.fields.PlayerName;
         sceneController.volume = data.fields.VolumePref;
 
+        sceneController.nonsence = data.fields.Nonsence;
+
+        sceneController.recordID = data.id;
+
         //Debug.Log("Player Name: " + data.fields.PlayerName);
         //Debug.Log("Volume Preference: " + data.fields.VolumePref);
-        
+
     }
 
     //tells create record the table name and feeds it the Json string containing the data from the sceneController script, then initiates the createAirtableRecordFunction

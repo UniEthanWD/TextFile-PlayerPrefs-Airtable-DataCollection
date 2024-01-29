@@ -4,9 +4,9 @@ using UnityEngine;
 using System.IO;
 using TMPro;
 
-
 public class SaveToTextFile : MonoBehaviour
 {
+    // Input fields for folder name, file name, and file content
     [Header("Folders")]
     public TMP_InputField folderNameInputField;
     public TMP_Text folderNameInputFeedback;
@@ -22,20 +22,20 @@ public class SaveToTextFile : MonoBehaviour
     public TMP_Text fileContentInputFeedback;
     public string contentForTextFile;
 
+    // Directory path to store files
     public string directoryName;
 
-
-    //prints the device persistent path to console
+    // Prints the device persistent path to console
     private void Awake()
     {
         Debug.Log(Application.persistentDataPath);
     }
 
-    //checks if there a folder named by the string in the input field, and returns result (empty input field return error message) 
+    // Checks if a folder with the given name exists and provides feedback
     public void CheckForDirectory()
     {
-
-        if(folderNameInputField.text == "")
+        // Check for empty folder name
+        if (folderNameInputField.text == "")
         {
             folderNameInputFeedback.text = "Enter a folder name";
         }
@@ -44,29 +44,32 @@ public class SaveToTextFile : MonoBehaviour
             customFolderName = folderNameInputField.text;
             directoryName = Application.persistentDataPath + "/" + customFolderName + "/";
 
+            // Check if the folder exists
             if (Directory.Exists(directoryName))
             {
                 folderNameInputFeedback.text = "There is a folder by that name in the directory";
             }
             else
             {
-                folderNameInputFeedback.text = "Folder by that name does not exsist";
+                folderNameInputFeedback.text = "Folder by that name does not exist";
             }
         }
     }
 
-    //creates folder at location, if does not already exsist (if folder name input field is not empty)
+    // Creates a folder at the specified location if it does not already exist
     public void CreateDirectory()
     {
+        // Check for empty folder name
         if (folderNameInputField.text == "")
         {
             folderNameInputFeedback.text = "Enter a folder name";
         }
         else
         {
+            // Check if the directory already exists
             if (Directory.Exists(directoryName))
             {
-                folderNameInputFeedback.text = "A directory of that name already exsists";
+                folderNameInputFeedback.text = "A directory of that name already exists";
             }
             else
             {
@@ -77,9 +80,10 @@ public class SaveToTextFile : MonoBehaviour
         }
     }
 
-    //delets folder at location, if it exsists (and if folder name input field is not empty) otherwise returns error
+    // Deletes a folder at the specified location if it exists
     public void DeleteDirectory()
     {
+        // Check for empty folder name
         if (folderNameInputField.text == "")
         {
             folderNameInputFeedback.text = "Enter a folder name";
@@ -89,6 +93,7 @@ public class SaveToTextFile : MonoBehaviour
             customFolderName = folderNameInputField.text;
             directoryName = Application.persistentDataPath + "/" + customFolderName + "/";
 
+            // Check if the folder exists and delete it
             if (Directory.Exists(directoryName))
             {
                 Directory.Delete(directoryName);
@@ -96,17 +101,18 @@ public class SaveToTextFile : MonoBehaviour
             }
             else
             {
-                folderNameInputFeedback.text = "Folder by that name does not exsist";
+                folderNameInputFeedback.text = "Folder by that name does not exist";
             }
         }
     }
 
-    //checks for if a file exsists at the desired location (uses persistent path if no other folder set) and returns result (returns error if no file name set)
+    // Checks if a file with the given name exists at the desired location
     public void CheckForTextFile()
     {
         customFileName = fileNameInputField.text;
 
-        if(directoryName == null || directoryName == "")
+        // Set default directory to persistent data path if not specified
+        if (directoryName == null || directoryName == "")
         {
             directoryName = Application.persistentDataPath + "/";
         }
@@ -115,6 +121,7 @@ public class SaveToTextFile : MonoBehaviour
             directoryName = Application.persistentDataPath + "/" + customFolderName + "/";
         }
 
+        // Check for empty file name
         if (customFileName == null || customFileName == "")
         {
             fileNameInputFeedback.text = "Enter a file name";
@@ -123,13 +130,15 @@ public class SaveToTextFile : MonoBehaviour
         {
             string textDocumentName = directoryName + customFileName + ".txt";
 
+            // Check if the file exists
             if (File.Exists(textDocumentName))
             {
-                fileNameInputFeedback.text = "A file exsists at " + textDocumentName;
+                fileNameInputFeedback.text = "A file exists at " + textDocumentName;
             }
             else
             {
-                if(directoryName == null || directoryName == "")
+                // Provide feedback for non-existent file
+                if (directoryName == null || directoryName == "")
                 {
                     fileNameInputFeedback.text = "There is no file found called " + customFileName + " @ " + Application.persistentDataPath;
                 }
@@ -141,19 +150,20 @@ public class SaveToTextFile : MonoBehaviour
         }
     }
 
-    //checks if a file by that name exsists at requested folder (persistent path if none set), if not then creates (returns error if exsists or if no file name set)
+    // Creates a text file at the specified location if it does not already exist
     public void CreateTextFile()
     {
         customFileName = fileNameInputField.text;
-
         string textDocumentName = directoryName + customFileName + ".txt";
 
+        // Check for empty file name
         if (customFileName == null || customFileName == "")
         {
             fileNameInputFeedback.text = "Enter a file name";
         }
         else
         {
+            // Check if the file already exists
             if (directoryName == null || directoryName == "")
             {
                 if (File.Exists(textDocumentName))
@@ -163,6 +173,7 @@ public class SaveToTextFile : MonoBehaviour
                 }
                 else
                 {
+                    // Create the file and provide feedback
                     File.Create(textDocumentName).Dispose();
                     fileNameInputFeedback.text = "This file " + customFileName + " has been saved to the persistent data path @ " + Application.persistentDataPath;
                     Debug.Log("This file " + customFileName + " has been saved to the persistent data path @ " + Application.persistentDataPath);
@@ -177,6 +188,7 @@ public class SaveToTextFile : MonoBehaviour
                 }
                 else
                 {
+                    // Create the file in the specified folder and provide feedback
                     File.Create(textDocumentName).Dispose();
                     fileNameInputFeedback.text = "Your file " + customFileName + " has been saved to your custom folder @ " + textDocumentName;
                     Debug.Log("Your file " + customFileName + " has been saved to your custom folder @ " + textDocumentName);
@@ -185,19 +197,20 @@ public class SaveToTextFile : MonoBehaviour
         }
     }
 
-    //deletes file at desired location (persistent path if not set) if it exsists and if file name input field is not empty, otherwise returns error
+    // Deletes a text file at the specified location if it exists
     public void DeleteTextFile()
     {
         customFileName = fileNameInputField.text;
+        string textDocumentName = directoryName + customFileName + ".txt";
 
+        // Check for empty file name
         if (customFileName == null || customFileName == "")
         {
             fileNameInputFeedback.text = "Enter a file name";
         }
         else
         {
-            string textDocumentName = directoryName + customFileName + ".txt";
-
+            // Check if the file exists and delete it
             if (File.Exists(textDocumentName))
             {
                 File.Delete(textDocumentName);
@@ -205,6 +218,7 @@ public class SaveToTextFile : MonoBehaviour
             }
             else
             {
+                // Provide feedback for non-existent file
                 if (directoryName == null || directoryName == "")
                 {
                     fileNameInputFeedback.text = "There is no file found called " + customFileName + " @ " + Application.persistentDataPath;
@@ -217,26 +231,30 @@ public class SaveToTextFile : MonoBehaviour
         }
     }
 
-    //checks if file content has been added, checks for folder name applied, checks for file name. will only return error for no file name or content, else will create or add
-    //to file at location (persistent path if nothing applied)
+    // Checks if file content has been added, checks for folder name applied, checks for file name.
+    // Will only return an error for no file name or content, else will create or add to the file at location (persistent path if nothing applied)
     public void CreateOrAddToTextFile()
     {
         contentForTextFile = fileContentInputField.text;
-                
+
+        // Check for empty content
         if (contentForTextFile == null || contentForTextFile == "")
         {
             fileContentInputFeedback.text = "Enter some content to be saved";
         }
         else
         {
+            // Check for default directory (persistent data path) if none specified
             if (directoryName == null || directoryName == "")
             {
+                // Check for empty file name
                 if (customFileName == null || customFileName == "")
                 {
                     fileContentInputFeedback.text = "Enter a file name to be able to save this content";
                 }
                 else
                 {
+                    // Append content to the file and provide feedback
                     string textDocumentName = directoryName + customFileName + ".txt";
                     File.AppendAllText(textDocumentName, contentForTextFile + "\n \n");
                     fileContentInputFeedback.text = "Your content has been added to the file " + customFileName + " saved at the persistent data path @ " + Application.persistentDataPath;
@@ -245,42 +263,48 @@ public class SaveToTextFile : MonoBehaviour
             }
             else
             {
+                // Check for empty file name
                 if (customFileName == null || customFileName == "")
                 {
                     fileContentInputFeedback.text = "Enter a file name to be able to save this content";
                 }
                 else
                 {
+                    // Append content to the file in the specified folder and provide feedback
                     string textDocumentName = directoryName + customFileName + ".txt";
                     File.AppendAllText(textDocumentName, contentForTextFile + "\n \n");
-                    fileContentInputFeedback.text = "Your content has been added to the file " + customFileName +" @ " + directoryName;
+                    fileContentInputFeedback.text = "Your content has been added to the file " + customFileName + " @ " + directoryName;
                     Debug.Log("Your content has been added to the file " + customFileName + " @ " + directoryName);
                 }
             }
-        }        
+        }
     }
 
-    //same as above, but will overwrite contents of exsisting file
+    // Same as above, but will overwrite contents of an existing file
     public void OverwriteTextFile()
     {
         string textDocumentName = directoryName + customFileName + ".txt";
 
         contentForTextFile = fileContentInputField.text;
 
+        // Check for empty content
         if (contentForTextFile == null || contentForTextFile == "")
         {
             fileContentInputFeedback.text = "Enter some content to be saved";
         }
         else
         {
+            // Check for default directory (persistent data path) if none specified
             if (directoryName == null || directoryName == "")
             {
+                // Check for empty file name
                 if (customFileName == null || customFileName == "")
                 {
                     fileContentInputFeedback.text = "Enter a file name to be able to save this content";
                 }
                 else
                 {
+                    // Overwrite existing file with new content and provide feedback
                     File.WriteAllText(textDocumentName, "");
                     File.AppendAllText(textDocumentName, contentForTextFile + "\n \n");
                     fileContentInputFeedback.text = "Your content has been added to the file " + customFileName + " saved at the persistent data path @ " + Application.persistentDataPath;
@@ -289,12 +313,14 @@ public class SaveToTextFile : MonoBehaviour
             }
             else
             {
+                // Check for empty file name
                 if (customFileName == null || customFileName == "")
                 {
                     fileContentInputFeedback.text = "Enter a file name to be able to save this content";
                 }
                 else
                 {
+                    // Overwrite existing file in the specified folder with new content and provide feedback
                     File.WriteAllText(textDocumentName, "");
                     File.AppendAllText(textDocumentName, contentForTextFile + "\n \n");
                     fileContentInputFeedback.text = "Your content has been added to the file @ " + textDocumentName;
@@ -304,4 +330,3 @@ public class SaveToTextFile : MonoBehaviour
         }
     }
 }
-

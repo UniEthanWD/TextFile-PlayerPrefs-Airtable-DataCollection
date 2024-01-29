@@ -8,11 +8,18 @@ public class SceneController : MonoBehaviour
 {
     [Header("Scripts")]
     public AirtableController airtableController;
+    public CreateRecord createRecord;
 
     [Header("Player Name")]
     public TMP_InputField playerNameInputField;
     public TMP_Text playerNameFeedback;
     public string playerName;
+
+    public string nonsence;
+
+    public string recordID;
+
+    public TMP_Text recordIDFeebackTMP;
 
     [Header("Volume")]
     public Slider volumeSlider;
@@ -114,5 +121,10 @@ public class SceneController : MonoBehaviour
     {
         //ensures the text feedback is always the sliders value
         volumeLevel.text = volumeSlider.value.ToString();
+    }
+
+    public void RecordIdFeedback()
+    {
+        recordIDFeebackTMP.text = createRecord.recordID;
     }
 }

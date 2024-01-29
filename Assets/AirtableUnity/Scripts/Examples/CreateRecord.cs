@@ -11,6 +11,10 @@ public class CreateRecord : MonoBehaviour
     public string TableName;
     [TextArea(0,10)]
     public string NewRecordJson;
+
+    public string recordID;
+
+    public SceneController sceneController;
     
     /// <summary>
     /// Will create a record using the data inside Editor without any callback
@@ -54,11 +58,17 @@ public class CreateRecord : MonoBehaviour
         }));
     }
 
-    private static void OnResponseFinish<T>(BaseRecord<T> record)
+    public void OnResponseFinish<T>(BaseRecord<T> record)
     {
         var msg = "record id: " + record?.id + "\n";
         msg += "created at: " + record?.createdTime;
         
         Debug.Log("[Airtable Unity] - Create Record: " + "\n" + msg);
+
+        recordID = msg;
+
+        sceneController.RecordIdFeedback();
+
+
     }
 }
