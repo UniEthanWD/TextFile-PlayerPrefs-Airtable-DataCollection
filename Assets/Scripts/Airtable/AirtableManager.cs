@@ -5,12 +5,14 @@ using System;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json.Linq;
-using TMPro;
 
 
 
 public class AirtableManager : MonoBehaviour
 {
+    [Header ("Scripts")]
+    public AirtableSceneController airtableSceneController;
+
     [Header("Airtable")]
     public string airtableEndpoint = "https://api.airtable.com/v0/";
     public string baseId = "YOUR_BASE_ID";
@@ -18,67 +20,44 @@ public class AirtableManager : MonoBehaviour
     public string accessToken = "YOUR_ACCESS_TOKEN";
     private string dataToParse;
 
-
-    [Header("Assesment Information")]
+    [Header("Data For Airtable")]
     public string dateTime;
-    public string patientOneDiagnosis;
-    public string patientTwoDiagnosis;
-    public string patientThreeDiagnosis;
-    public string patientOneComments;
-    public string patientTwoComments;
-    public string patientThreeComments;
-
+    public string playerName;
+    public string volume;
+    public string coins;
+    public string timePlayed;
+    public string health;
+    public string score;
 
 
     public void CreateRecord()
     {
-        dateTime = System.DateTime.Now.ToString("dd.MM.yyyy HH.mm");
+        dateTime = DateTime.Now.ToString("dd.MM.yyyy HH.mm");
 
         // Create the URL for the API request
         string url = airtableEndpoint + baseId + "/" + tableName;
 
         // Create the data to be sent in the request
         string jsonFields = "{\"fields\": {" +
-                                    "\"Date and Time\":\"" + dateTime + "\", " +
-                                    "\"Patient One Diagnosis\":\"" + patientOneDiagnosis + "\", " +
-                                    "\"Patient One Comments\":\"" + patientOneComments + "\", " +
-                                    "\"Patient Two Diagnosis\":\"" + patientTwoDiagnosis + "\", " +
-                                    "\"Patient Two Comments\":\"" + patientTwoComments + "\", " +
-                                    "\"Patient Three Diagnosis\":\"" + patientThreeDiagnosis + "\", " +
-                                    "\"Patient Three Comments\":\"" + patientThreeComments + "\"" +
+                                    "\"DateTime\":\"" + dateTime + "\", " + 
+                                    "\"PlayerName\":\"" + playerName + "\", " +
+                                    "\"Volume\":\"" + volume + "\", " +
+                                    "\"Coins\":\"" + coins + "\", " +
+                                    "\"TimePlayed\":\"" + timePlayed + "\", " +
+                                    "\"Health\":\"" + health + "\", " +
+                                    "\"Score\":\"" + score + "\"" +
                                     "}}";
 
         // Start the coroutine to send the API request
         StartCoroutine(SendRequest(url, "POST", response =>
         {
             Debug.Log("Record created: " + response);
+
+            //parsing JSON to retrieve record ID....
+            dataToParse = response;
+            JSONParse();
         }, jsonFields));
     }
-
-    //public void TestCreateRecord()
-    //{
-    //    dateTime = System.DateTime.Now.ToString("dd.MM.yyyy HH.mm");
-
-    //    // Create the URL for the API request
-    //    string url = airtableEndpoint + baseId + "/" + tableName;
-
-    //    Debug.Log(url);
-
-    //    // Create the data to be sent in the request
-    //    string jsonFields = "{\"fields\": {" +
-    //                                "\"Date and Time\":\"" + dateTime + "\", " +
-    //                                "\"Extra Time Added\":\"" + extraTimeString + "\"" +
-    //                                "}}";
-    //    string jsonData = "{\"fields\": " + jsonFields + "}";
-
-    //    Debug.Log(jsonData);
-
-    //    // Start the coroutine to send the API request
-    //    StartCoroutine(SendRequest(url, "POST", response =>
-    //    {
-    //        Debug.Log("Record created: " + response);
-    //    }, jsonData));
-    //}
 
     // Unity coroutine to make API requests
     private IEnumerator SendRequest(string url, string method, Action<string> callback, string jsonData = "")
@@ -111,10 +90,30 @@ public class AirtableManager : MonoBehaviour
         yield return null;
     }
 
-    public void CallGetCellValue()
+
+    public void TestSetPlayerName()
     {
-        RetrieveRecord("recWq2NPUgOhAqx3w", "App Table References");
+        string url = airtableEndpoint + baseId + "/" + tableName + "/" + "recmLNtUus5c5O4Bf";
+
+        // Create the data to be sent in the request
+        string jsonFields = "{\"fields\": {" +
+                                    "\"PlayerName\":\"" + playerName + "\", " +
+                                    "\"Volume\":\"" + volume + "\"" +
+                                    "}}";
+
+        // Start the coroutine to send the API request
+        StartCoroutine(SendRequest(url, "POST", response =>
+        {
+            Debug.Log("Record created: " + response);
+        }, jsonFields));
     }
+
+
+    public void GetRecordValue(string recordID)
+    {
+        RetrieveRecord(recordID, "ExampleLoadTable");
+    }
+
 
     // Example method to retrieve a record from Airtable based on record ID
     public void RetrieveRecord(string recordId, string readTableName)
@@ -138,6 +137,15 @@ public class AirtableManager : MonoBehaviour
     {
         string source = dataToParse;
         dynamic data = JObject.Parse(source);
-        Debug.Log("Table to be used: " + source);
+
+        Debug.Log(data.id);
+
+        //playerName = data.fields.PlayerName;
+        //volume = data.fields.Volume;
+
+        //airtableSceneController.playerName = playerName;
+        //airtableSceneController.volume = volume;
+
+        Debug.Log("Player Name Is: " + playerName + ". Volume Data: " + volume);
     }
 }

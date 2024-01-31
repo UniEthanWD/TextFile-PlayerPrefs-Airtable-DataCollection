@@ -4,22 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class SceneController : MonoBehaviour
+public class AirtableSceneController : MonoBehaviour
 {
     [Header("Scripts")]
-    public AirtableController airtableController;
-    public CreateRecord createRecord;
+    public AirtableManager airtableManager;
 
     [Header("Player Name")]
     public TMP_InputField playerNameInputField;
     public TMP_Text playerNameFeedback;
     public string playerName;
 
-    public string nonsence;
-
-    public string recordID;
-
-    public TMP_Text recordIDFeebackTMP;
 
     [Header("Volume")]
     public Slider volumeSlider;
@@ -38,58 +32,36 @@ public class SceneController : MonoBehaviour
     public string score;
 
 
+    public void UpdatePlayerName()
+    {
+        playerName = playerNameInputField.text;
+    }
+
     //sets playerName variable to input fields value, then calls custom function from airtable controller
     public void SavePlayerName()
     {
-        playerName = playerNameInputField.text;
-        airtableController.UpdatePlayerData();
+        airtableManager.playerName = playerName;
+        airtableManager.CreateRecord();
     }
 
-    public void LoadPlayerName()
+    public void UpdateVolume()
     {
-        StartCoroutine("LoadPlayerNameCoroutine");
+        volume = volumeSlider.value.ToString();
     }
 
     //sets volume variable to slider value and calls custom function from airtable controller
     public void SaveVolumeLevel()
     {
-        volume = volumeSlider.value.ToString();
-        airtableController.UpdatePlayerData();
-    }
-
-    public void LoadVolumeLevel()
-    {
-        StartCoroutine("LoadVolumeLevelCoroutine");
+        airtableManager.volume = volume;
+        airtableManager.CreateRecord();
     }
 
     //sets both playerName and volume values
     public void SavePlayerData()
     {
-        playerName = playerNameInputField.text;
-        volume = volumeSlider.value.ToString();
-        airtableController.UpdatePlayerData();
-    }
-
-    public void LoadPlayerData()
-    {
-        StartCoroutine("LoadPlayerNameCoroutine");
-        StartCoroutine("LoadVolumeLevelCoroutine");
-    }
-
-    //calls custom load info function in airtableController and waits 1 second for response from airtable server before setting playerName to airtable value
-    public IEnumerator LoadPlayerNameCoroutine()
-    {
-        airtableController.LoadPlayerInfo();
-        yield return new WaitForSeconds(1f);
-        playerNameInputField.text = playerName;
-    }
-
-    //calls custom load info function in airtableController and waits 1 second for response from airtable server before setting playerName to airtable value
-    public IEnumerator LoadVolumeLevelCoroutine()
-    {
-        airtableController.LoadPlayerInfo();
-        yield return new WaitForSeconds(1f);
-        volumeSlider.value = float.Parse(volume);
+        airtableManager.playerName = playerName;
+        airtableManager.volume = volume;
+        airtableManager.CreateRecord();
     }
 
     //sets coin value to what is in the input field (used by inputFields "onEndEdit" event)
@@ -116,6 +88,17 @@ public class SceneController : MonoBehaviour
         score = scoreInputField.text;
     }
 
+    public void SaveAllData()
+    {
+        airtableManager.playerName = playerName;
+        airtableManager.volume = volume;
+        airtableManager.coins = coins;
+        airtableManager.timePlayed = timePlayed;
+        airtableManager.health = health;
+        airtableManager.score = score;
+        airtableManager.CreateRecord();
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -123,8 +106,8 @@ public class SceneController : MonoBehaviour
         volumeLevel.text = volumeSlider.value.ToString();
     }
 
-    public void RecordIdFeedback()
+    public void LoadPlayerData()
     {
-        recordIDFeebackTMP.text = createRecord.recordID;
+        airtableManager.GetRecordValue("recmLNtUus5c5O4Bf");
     }
 }
