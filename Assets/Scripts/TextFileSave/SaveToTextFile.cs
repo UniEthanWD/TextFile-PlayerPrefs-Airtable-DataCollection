@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using TMPro;
+using System;
 
 public class SaveToTextFile : MonoBehaviour
 {
@@ -325,6 +326,69 @@ public class SaveToTextFile : MonoBehaviour
                     File.AppendAllText(textDocumentName, contentForTextFile + "\n \n");
                     fileContentInputFeedback.text = "Your content has been added to the file @ " + textDocumentName;
                     Debug.Log("Your content has been added to the file @ " + textDocumentName);
+                }
+            }
+        }
+    }
+
+    public void ReadTextFile()
+    {
+        customFileName = fileNameInputField.text;
+
+        // Set default directory to persistent data path if not specified
+        if (directoryName == null || directoryName == "")
+        {
+            directoryName = Application.persistentDataPath + "/";
+        }
+        else
+        {
+            directoryName = Application.persistentDataPath + "/" + customFolderName + "/";
+        }
+
+        // Check for empty file name
+        if (customFileName == null || customFileName == "")
+        {
+            fileNameInputFeedback.text = "Enter a file name";
+        }
+        else
+        {
+            string textDocumentName = directoryName + customFileName + ".txt";
+
+            // Check if the directory exists
+            if (!Directory.Exists(directoryName))
+            {
+                fileNameInputFeedback.text = "Directory does not exist";
+            }
+            // Check if the file exists
+            else if (!File.Exists(textDocumentName))
+            {
+                fileNameInputFeedback.text = "File does not exist";
+            }
+            else
+            {
+                try
+                {
+                    // Read the content from the file
+                    string fileContent = File.ReadAllText(textDocumentName);
+
+                    // Check if the content is not empty
+                    if (!string.IsNullOrEmpty(fileContent))
+                    {
+                        // Display the content
+                        fileContentInputField.text = fileContent;
+                        Debug.Log("File content:\n" + fileContent);
+                    }
+                    else
+                    {
+                        // Provide feedback for empty file
+                        fileContentInputFeedback.text = "The file is empty";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Handle exceptions, if any
+                    fileContentInputFeedback.text = "Error reading the file: " + ex.Message;
+                    Debug.LogError("Error reading the file: " + ex.Message);
                 }
             }
         }

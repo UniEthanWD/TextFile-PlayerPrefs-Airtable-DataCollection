@@ -15,7 +15,6 @@ public class PlayerPrefsExample : MonoBehaviour
     public TMP_Text intCurrentValueTMP;
     public TMP_Text intPlayerPrefValueTMP;
 
-
     [Header("PlayerPrefsFloat")]
     public float floatForPlayerPrefs;
     public float currentFloatValue;
@@ -33,7 +32,6 @@ public class PlayerPrefsExample : MonoBehaviour
     public TMP_Text stringInputFieldInfoTMP;
     public TMP_Text stringCurrentValueTMP;
     public TMP_Text stringPlayerPrefValueTMP;
-
 
 
     //function checks whether variable from the input field can be 'parsed' as int, if so set playerPref (if doesn't exsist, creates), if not return error message

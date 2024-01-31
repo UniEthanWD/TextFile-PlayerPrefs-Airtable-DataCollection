@@ -6,9 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/PlayerPrefs/Examples/PlayerPrefsExamplePage1.unity
+    path: Assets/Scenes/PlayerPrefs/PlayerPrefsExamplePage1.unity
     guid: 532d8f10a39bbd34c8dda642216edcbe
   - enabled: 1
-    path: Assets/Scenes/PlayerPrefs/Examples/PlayerPrefsExamplePage2.unity
+    path: Assets/Scenes/PlayerPrefs/PlayerPrefsExamplePage2.unity
     guid: eff44e8ef58fedc4484747f90ec03ba1
   m_configObjects: {}
