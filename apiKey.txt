@@ -1,3 +1,0 @@
-{
-    "api_key": "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",
-}
