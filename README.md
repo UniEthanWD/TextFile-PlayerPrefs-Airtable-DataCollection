@@ -30,10 +30,6 @@ Ensure the following packages are applied in the Unity Package Manager:
 
 Contributions are welcome! If you have suggestions or improvements, feel free to open an issue or create a pull request.
 
-## License
-
-*No license specified.*
-
 ## Contact Information
 
 For any inquiries, contact Sebastian Vowles, teaching tutor at Swansea University VR department: sebastian.vowles@swansea.ac.uk.
