@@ -1,67 +1,46 @@
-# Unity Data Collection and Storage with Airtable and PlayerPrefs
-
-![Project Logo](project_logo.png) <!-- Add your project logo or relevant image -->
+# TextFile-PlayerPrefs-Airtable-DataCollection
 
 ## Description
 
-This project showcases a Unity application designed to collect user data and demonstrates two storage methods: using Airtable as the online database and utilizing Unity's PlayerPrefs for local storage. Whether you're building a game, an interactive application, or any project involving data collection, this Unity project provides versatile options for data management.
+This repository provides examples for working with data storage in Unity. It focuses on demonstrating various methods for saving and loading simple data types (integers, floats, strings). The included scenes cover directory and file operations using `Application.persistentDataPath`, PlayerPrefs operations, and saving/loading data from Airtable. Created for educational purposes, this project aims to help students understand different approaches to data storage in Unity.
 
 ## Features
 
-- **Data Collection:** Easily capture user input and interactions within your Unity application.
-- **Airtable Integration:** Utilize the power of Airtable as a database to store and manage your collected data.
-- **PlayerPrefs Examples:** Learn how to use Unity's built-in PlayerPrefs for local data storage.
-- **Text File Saving:** Explore saving data to a local text file for more advanced scenarios.
-- **Customizable Fields:** Define the data fields that suit your project's requirements.
-- **Real-time Sync:** Changes made in the Unity app are reflected in the Airtable database in real time.
-- **User-Friendly:** Simple setup and configuration, even for those new to Unity or Airtable.
-
-## Prerequisites
-
-- Unity 2021.3.13f1 or compatible version
-- Airtable Account: [Sign up here](https://www.airtable.com)
+- **File and Directory Operations:** Examples for checking/creating directories and files using `Application.persistentDataPath`.
+- **PlayerPrefs Operations:** Scenes showcasing creating, loading, and deleting PlayerPrefs data.
+- **Airtable Data Collection:** Scene demonstrating saving to and loading data from Airtable.
 
 ## Installation
 
-1. Clone this repository to your local machine.
-2. Open the project in Unity 2021.3.13f1 or a compatible version.
-3. Follow the setup instructions in the [Installation Guide](InstallationGuide.md) to configure Airtable integration.
+1. Download the project as a ZIP file from this GitHub repository.
+2. Open the project using Unity version 2022.3.18.f1.
 
 ## Usage
 
-1. Run the Unity application on your desired platform.
-2. Interact with the app to generate data.
-3. Data is automatically synchronized with your linked Airtable database.
-4. Explore the provided PlayerPrefs examples and local text file saving.
+1. Explore the different scenes provided in the project.
+2. Investigate the code to understand how data is saved, loaded, and manipulated.
 
-## Configuration
+## Dependencies
 
-- Configure your Airtable API credentials in the project settings.
-- Customize data fields by modifying the data structure in the Unity script.
-- Adjust PlayerPrefs keys and text file paths as needed.
-
-## Screenshots
-
-![Screenshot 1](screenshot1.png)
-![Screenshot 2](screenshot2.png)
-
-## Known Issues
-
-- Data synchronization delays may occur in certain network conditions.
-- [Issue Tracker](https://github.com/yourusername/yourproject/issues)
+Ensure the following packages are applied in the Unity Package Manager:
+- [Newtonsoft Json](https://link-to-newtonsoft-json)
+- [Text Mesh Pro](https://link-to-text-mesh-pro)
 
 ## Contributing
 
-Contributions are welcome! Follow the [Contributing Guidelines](CONTRIBUTING.md) to get started.
+Contributions are welcome! If you have suggestions or improvements, feel free to open an issue or create a pull request.
 
-## License
+## Contact Information
 
-This project is licensed under the [MIT License](LICENSE).
+For any inquiries, contact Sebastian Vowles, teaching tutor at Swansea University VR department: sebastian.vowles@swansea.ac.uk.
 
-## Acknowledgments
+## Screenshots
 
-- Hat tip to [Airtable](https://www.airtable.com) for providing an excellent data storage solution.
-- Thanks to the Unity community for their support and resources.
+![Scene 1](screenshots/scene1.png)
+*Description of Scene 1.*
 
+![Scene 2](screenshots/scene2.png)
+*Description of Scene 2.*
 
-**Disclaimer:** This project is not officially affiliated with Unity Technologies or Airtable. It's a community-driven initiative to demonstrate data collection using Unity, Airtable integration, PlayerPrefs, and local text file storage.
+![Scene 3](screenshots/scene3.png)
+*Description of Scene 3.*
