@@ -2271,11 +2271,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 897b7b8515d1d9e48b5d6be1d0e826d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  airtableEndpoint: https://api.airtable.com/v0/
-  baseId: appCvJCjhfEhbDsKn
-  tableName: ExampleTable
-  accessToken: pathyxQJ79sVzqaa8.80c9276f542d29fb0b6b2cf22d2c5172720152eee2332aa116b2b6185d2ed3fc
   airtableSceneController: {fileID: 548314852}
+  airtableEndpoint: https://api.airtable.com/v0/
+  baseId: 
+  tableName: 
+  accessToken: 
   dateTime: 
   playerName: 
   volume: 
