@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using JetBrains.Annotations;
 
 public class AirtableSceneController : MonoBehaviour
 {
     [Header("Scripts")]
     public AirtableManager airtableManager;
+
+    [Header("Record ID")]
+    public TMP_Text recordIDTMP;
 
     [Header("Player Name")]
     public TMP_InputField playerNameInputField;
@@ -30,6 +34,10 @@ public class AirtableSceneController : MonoBehaviour
     public string timePlayed;
     public string health;
     public string score;
+    public TMP_Text coinDataFeedback;
+    public TMP_Text timePlayedFeedback;
+    public TMP_Text healthDataFeedback;
+    public TMP_Text scoreDataFeedback;
 
 
     public void UpdatePlayerName()
@@ -106,8 +114,9 @@ public class AirtableSceneController : MonoBehaviour
         volumeLevel.text = volumeSlider.value.ToString();
     }
 
-    public void LoadPlayerData()
+    public void LoadDataFromAirtbale(string dataToLoad)
     {
-        airtableManager.GetRecordValue("recmLNtUus5c5O4Bf");
+        airtableManager.dataToLoad = dataToLoad;
+        airtableManager.GetRecordValue(airtableManager.lastRecordID);
     }
 }

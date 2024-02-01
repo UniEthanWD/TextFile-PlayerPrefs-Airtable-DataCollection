@@ -29,9 +29,24 @@ public class AirtableManager : MonoBehaviour
     public string health;
     public string score;
 
+    [Header("Data From Airtable")]
+    public string dataToLoad;
+    public string lastRecordID;
+    public string playerNameFromAirtable;
+    public string volumeFromAirtable;
+    public string coinsFromAirtable;
+    public string timePlayedFromAirtable;
+    public string healthFromAirtable;
+    public string scoreFromAirtable;
+
 
     public void CreateRecord()
     {
+        if(dataToLoad != null)
+        {
+            dataToLoad = null;
+        }
+
         dateTime = DateTime.Now.ToString("dd.MM.yyyy HH.mm");
 
         // Create the URL for the API request
@@ -89,29 +104,10 @@ public class AirtableManager : MonoBehaviour
 
         yield return null;
     }
-
-
-    public void TestSetPlayerName()
-    {
-        string url = airtableEndpoint + baseId + "/" + tableName + "/" + "recmLNtUus5c5O4Bf";
-
-        // Create the data to be sent in the request
-        string jsonFields = "{\"fields\": {" +
-                                    "\"PlayerName\":\"" + playerName + "\", " +
-                                    "\"Volume\":\"" + volume + "\"" +
-                                    "}}";
-
-        // Start the coroutine to send the API request
-        StartCoroutine(SendRequest(url, "POST", response =>
-        {
-            Debug.Log("Record created: " + response);
-        }, jsonFields));
-    }
-
-
+     
     public void GetRecordValue(string recordID)
     {
-        RetrieveRecord(recordID, "ExampleLoadTable");
+        RetrieveRecord(recordID, tableName);
     }
 
 
@@ -138,14 +134,45 @@ public class AirtableManager : MonoBehaviour
         string source = dataToParse;
         dynamic data = JObject.Parse(source);
 
-        Debug.Log(data.id);
+        lastRecordID = data.id;
+        airtableSceneController.recordIDTMP.text = "Record ID: " + lastRecordID;        
+        Debug.Log("Last RecordID was: " + data.id);
 
-        //playerName = data.fields.PlayerName;
-        //volume = data.fields.Volume;
+        if(dataToLoad == "PlayerName")
+        {
+            playerNameFromAirtable = data.fields.PlayerName;
+            airtableSceneController.playerNameFeedback.text = playerNameFromAirtable;
+            Debug.Log("From Airtable: Player Name: " + playerNameFromAirtable);
+        }
 
-        //airtableSceneController.playerName = playerName;
-        //airtableSceneController.volume = volume;
+        if (dataToLoad == "Volume")
+        {
+            volumeFromAirtable = data.fields.Volume;
+            airtableSceneController.volumeFeedback.text = volumeFromAirtable;
+            Debug.Log("From Airtable: Volume Data: " + volumeFromAirtable);
+        }
 
-        Debug.Log("Player Name Is: " + playerName + ". Volume Data: " + volume);
+        if (dataToLoad == "PlayerData")
+        {
+            playerNameFromAirtable = data.fields.PlayerName;
+            volumeFromAirtable = data.fields.Volume;
+            airtableSceneController.playerNameFeedback.text = playerNameFromAirtable;
+            airtableSceneController.volumeFeedback.text = volumeFromAirtable;
+            Debug.Log("From Airtable: Player Name: " + playerNameFromAirtable + ". Volume Data: " + volumeFromAirtable);
+        }
+
+        if (dataToLoad == "GameData")
+        {
+            coinsFromAirtable = data.fields.Coins;
+            timePlayedFromAirtable = data.fields.TimePlayed;
+            healthFromAirtable = data.fields.Health;
+            scoreFromAirtable = data.fields.Score;
+
+            airtableSceneController.coinDataFeedback.text = coinsFromAirtable;
+            airtableSceneController.timePlayedFeedback.text = timePlayedFromAirtable;
+            airtableSceneController.healthDataFeedback.text = healthFromAirtable;
+            airtableSceneController.scoreDataFeedback.text = scoreFromAirtable;
+            Debug.Log("From Airtable: Game Data: Coins: " + coinsFromAirtable + " Time Played: " + timePlayedFromAirtable + " Health Data: " + healthFromAirtable + " Score Data: " + scoreFromAirtable);
+        }
     }
 }
