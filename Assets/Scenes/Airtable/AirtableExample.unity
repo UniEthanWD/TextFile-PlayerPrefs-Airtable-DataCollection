@@ -2413,9 +2413,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   airtableSceneController: {fileID: 548314852}
   airtableEndpoint: https://api.airtable.com/v0/
-  baseId: appCvJCjhfEhbDsKn
-  tableName: ExampleTable
-  accessToken: pathyxQJ79sVzqaa8.80c9276f542d29fb0b6b2cf22d2c5172720152eee2332aa116b2b6185d2ed3fc
+  accessToken: 
+  baseId: 
+  tableName: 
   dateTime: 
   playerName: 
   volume: 

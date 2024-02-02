@@ -6,21 +6,23 @@ using System.Net;
 using System.IO;
 using Newtonsoft.Json.Linq;
 
-
-
 public class AirtableManager : MonoBehaviour
 {
-    [Header ("Scripts")]
+
+    [Header("Scripts")]
+    // Reference to the AirtableSceneController script
     public AirtableSceneController airtableSceneController;
 
-    [Header("Airtable")]
+    [Header("Airtable Elements")]
+    // Airtable API endpoint and authentication details
     public string airtableEndpoint = "https://api.airtable.com/v0/";
+    public string accessToken = "YOUR_ACCESS_TOKEN";
     public string baseId = "YOUR_BASE_ID";
     public string tableName = "YOUR_TABLE_NAME";
-    public string accessToken = "YOUR_ACCESS_TOKEN";
     private string dataToParse;
 
     [Header("Data For Airtable")]
+    // Data fields for recording information
     public string dateTime;
     public string playerName;
     public string volume;
@@ -30,6 +32,7 @@ public class AirtableManager : MonoBehaviour
     public string score;
 
     [Header("Data From Airtable")]
+    // Data fields for retrieving information from Airtable
     public string dataToLoad;
     public string lastRecordID;
     public string playerNameFromAirtable;
@@ -39,22 +42,24 @@ public class AirtableManager : MonoBehaviour
     public string healthFromAirtable;
     public string scoreFromAirtable;
 
-
+    // Method to create a new record in Airtable
     public void CreateRecord()
     {
-        if(dataToLoad != null)
+        // Reset dataToLoad if it is not null
+        if (dataToLoad != null)
         {
             dataToLoad = null;
         }
 
+        // Get the current date and time
         dateTime = DateTime.Now.ToString("dd.MM.yyyy HH.mm");
 
         // Create the URL for the API request
         string url = airtableEndpoint + baseId + "/" + tableName;
 
-        // Create the data to be sent in the request
+        // Create JSON data for the API request
         string jsonFields = "{\"fields\": {" +
-                                    "\"DateTime\":\"" + dateTime + "\", " + 
+                                    "\"DateTime\":\"" + dateTime + "\", " +
                                     "\"PlayerName\":\"" + playerName + "\", " +
                                     "\"Volume\":\"" + volume + "\", " +
                                     "\"Coins\":\"" + coins + "\", " +
@@ -66,22 +71,27 @@ public class AirtableManager : MonoBehaviour
         // Start the coroutine to send the API request
         StartCoroutine(SendRequest(url, "POST", response =>
         {
+            // Log the response from the API
             Debug.Log("Record created: " + response);
 
-            //parsing JSON to retrieve record ID....
+            // Store the response for parsing
             dataToParse = response;
+
+            // Parse the JSON response
             JSONParse();
         }, jsonFields));
     }
 
-    // Unity coroutine to make API requests
+    // Coroutine to make API requests
     private IEnumerator SendRequest(string url, string method, Action<string> callback, string jsonData = "")
     {
+        // Create a HTTP web request
         HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
         request.Method = method;
         request.ContentType = "application/json";
         request.Headers["Authorization"] = "Bearer " + accessToken;
 
+        // Include JSON data in the request if provided
         if (!string.IsNullOrEmpty(jsonData))
         {
             using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
@@ -90,11 +100,13 @@ public class AirtableManager : MonoBehaviour
             }
         }
 
+        // Get the response from the API
         using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
         {
             using (StreamReader reader = new StreamReader(response.GetResponseStream()))
             {
                 string jsonResponse = reader.ReadToEnd();
+                // Invoke the callback with the response
                 if (callback != null)
                 {
                     callback(jsonResponse);
@@ -102,16 +114,18 @@ public class AirtableManager : MonoBehaviour
             }
         }
 
+        // Yield to the next frame
         yield return null;
     }
-     
+
+    // Method to retrieve a specific record from Airtable
     public void GetRecordValue(string recordID)
     {
+        // Call the RetrieveRecord method with provided record ID and table name
         RetrieveRecord(recordID, tableName);
     }
 
-
-    // Example method to retrieve a record from Airtable based on record ID
+    // Method to retrieve a record from Airtable based on record ID
     public void RetrieveRecord(string recordId, string readTableName)
     {
         // Create the URL for the API request
@@ -123,22 +137,34 @@ public class AirtableManager : MonoBehaviour
             // Parse the JSON response
             var responseObject = JsonUtility.FromJson<Dictionary<string, object>>(response);
 
+            // Store the response for parsing
             dataToParse = response;
-            JSONParse();
 
+            // Parse the JSON response
+            JSONParse();
         }));
     }
 
+    // Method to parse the JSON response from Airtable
     public void JSONParse()
     {
+        // Get the JSON source data
         string source = dataToParse;
+
+        // Parse the JSON using Newtonsoft.Json
         dynamic data = JObject.Parse(source);
 
+        // Extract the record ID from the parsed JSON
         lastRecordID = data.id;
-        airtableSceneController.recordIDTMP.text = "Record ID: " + lastRecordID;        
+
+        // Update the UI with the record ID
+        airtableSceneController.recordIDTMP.text = "Record ID: " + lastRecordID;
+
+        // Log the last record ID
         Debug.Log("Last RecordID was: " + data.id);
 
-        if(dataToLoad == "PlayerName")
+        // Extract and display data based on the specified dataToLoad value
+        if (dataToLoad == "PlayerName")
         {
             playerNameFromAirtable = data.fields.PlayerName;
             airtableSceneController.playerNameFeedback.text = playerNameFromAirtable;
@@ -172,7 +198,9 @@ public class AirtableManager : MonoBehaviour
             airtableSceneController.timePlayedFeedback.text = timePlayedFromAirtable;
             airtableSceneController.healthDataFeedback.text = healthFromAirtable;
             airtableSceneController.scoreDataFeedback.text = scoreFromAirtable;
-            Debug.Log("From Airtable: Game Data: Coins: " + coinsFromAirtable + " Time Played: " + timePlayedFromAirtable + " Health Data: " + healthFromAirtable + " Score Data: " + scoreFromAirtable);
+
+            Debug.Log("From Airtable: Game Data: Coins: " + coinsFromAirtable + " Time Played: " + timePlayedFromAirtable +
+                      " Health Data: " + healthFromAirtable + " Score Data: " + scoreFromAirtable);
         }
     }
 }
