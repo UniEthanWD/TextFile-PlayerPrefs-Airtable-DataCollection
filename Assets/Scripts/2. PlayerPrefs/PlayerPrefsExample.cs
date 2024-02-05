@@ -7,27 +7,24 @@ using UnityEngine.SceneManagement;
 public class PlayerPrefsExample : MonoBehaviour
 {
     [Header ("PlayerPrefsInteger")]
-    public int intForPlayerPrefs;
+    public int intFromPlayerPrefs;
     public int currentIntValue;
-    public int variableIntValue;
     public TMP_InputField intInputFieldTMP;
     public TMP_Text intInputFieldInfoTMP;
     public TMP_Text intCurrentValueTMP;
     public TMP_Text intPlayerPrefValueTMP;
 
     [Header("PlayerPrefsFloat")]
-    public float floatForPlayerPrefs;
+    public float floatFromPlayerPrefs;
     public float currentFloatValue;
-    public float variableFloatValue;
     public TMP_InputField floatInputFieldTMP;
     public TMP_Text floatInputFieldInfoTMP;
     public TMP_Text floatCurrentValueTMP;
     public TMP_Text floatPlayerPrefValueTMP;
 
     [Header("PlayerPrefsString")]
-    public string stringForPlayerPrefs;
+    public string stringFromPlayerPrefs;
     public string currentStringValue;
-    public string variableStringValue;
     public TMP_InputField stringInputFieldTMP;
     public TMP_Text stringInputFieldInfoTMP;
     public TMP_Text stringCurrentValueTMP;
@@ -55,8 +52,8 @@ public class PlayerPrefsExample : MonoBehaviour
     {
         if(PlayerPrefs.HasKey("playerPrefsInt"))
         {
-            intForPlayerPrefs = PlayerPrefs.GetInt("playerPrefsInt");
-            intPlayerPrefValueTMP.text = intForPlayerPrefs.ToString();
+            intFromPlayerPrefs = PlayerPrefs.GetInt("playerPrefsInt");
+            intPlayerPrefValueTMP.text = intFromPlayerPrefs.ToString();
             intInputFieldInfoTMP.text = "Value loaded";
         }
         else
@@ -117,8 +114,8 @@ public class PlayerPrefsExample : MonoBehaviour
     {
         if(PlayerPrefs.HasKey("playerPrefsFloat"))
         {
-            floatForPlayerPrefs = PlayerPrefs.GetFloat("playerPrefsFloat");
-            floatPlayerPrefValueTMP.text = floatForPlayerPrefs.ToString();
+            floatFromPlayerPrefs = PlayerPrefs.GetFloat("playerPrefsFloat");
+            floatPlayerPrefValueTMP.text = floatFromPlayerPrefs.ToString();
             floatInputFieldInfoTMP.text = "Value loaded";
         }
         else
@@ -171,8 +168,8 @@ public class PlayerPrefsExample : MonoBehaviour
     {
         if(PlayerPrefs.HasKey("playerPrefsString"))
         {
-            stringForPlayerPrefs = PlayerPrefs.GetString("playerPrefsString");
-            stringPlayerPrefValueTMP.text = stringForPlayerPrefs;
+            stringFromPlayerPrefs = PlayerPrefs.GetString("playerPrefsString");
+            stringPlayerPrefValueTMP.text = stringFromPlayerPrefs;
             stringInputFieldInfoTMP.text = "Value loaded";
         }
         else
