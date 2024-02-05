@@ -114,11 +114,11 @@ public class SaveToTextFile : MonoBehaviour
         }
         else
         {
-            string textDocumentName = directoryName + customFileName + ".txt";
+            string textDocumentPath = directoryName + customFileName + ".txt";
 
-            if (File.Exists(textDocumentName))
+            if (File.Exists(textDocumentPath))
             {
-                fileNameInputFeedback.text = "A file exists at " + textDocumentName;
+                fileNameInputFeedback.text = "A file exists at " + textDocumentPath;
             }
             else
             {
@@ -137,7 +137,7 @@ public class SaveToTextFile : MonoBehaviour
     public void CreateTextFile()
     {
         customFileName = fileNameInputField.text;
-        string textDocumentName = directoryName + customFileName + ".txt";
+        string textDocumentPath = directoryName + customFileName + ".txt";
 
         if (customFileName == null || customFileName == "")
         {
@@ -147,30 +147,30 @@ public class SaveToTextFile : MonoBehaviour
         {
             if (directoryName == null || directoryName == "")
             {
-                if (File.Exists(textDocumentName))
+                if (File.Exists(textDocumentPath))
                 {
                     fileNameInputFeedback.text = "There is already a file named " + customFileName + " @ " + Application.persistentDataPath + " and a new one has NOT been created";
                     Debug.Log("There is already a file named " + customFileName + " @ " + Application.persistentDataPath + " and a new one has NOT been created");
                 }
                 else
                 {
-                    File.Create(textDocumentName).Dispose();
+                    File.Create(textDocumentPath).Dispose();
                     fileNameInputFeedback.text = "This file " + customFileName + " has been saved to the persistent data path @ " + Application.persistentDataPath;
                     Debug.Log("This file " + customFileName + " has been saved to the persistent data path @ " + Application.persistentDataPath);
                 }
             }
             else
             {
-                if (File.Exists(textDocumentName))
+                if (File.Exists(textDocumentPath))
                 {
                     fileNameInputFeedback.text = "There is already a file named " + customFileName + " @ " + directoryName + " and a new one has NOT been created";
                     Debug.Log("There is already a file named " + customFileName + " @ " + directoryName + " and a new one has NOT been created");
                 }
                 else
                 {
-                    File.Create(textDocumentName).Dispose();
-                    fileNameInputFeedback.text = "Your file " + customFileName + " has been saved to your custom folder @ " + textDocumentName;
-                    Debug.Log("Your file " + customFileName + " has been saved to your custom folder @ " + textDocumentName);
+                    File.Create(textDocumentPath).Dispose();
+                    fileNameInputFeedback.text = "Your file " + customFileName + " has been saved to your custom folder @ " + textDocumentPath;
+                    Debug.Log("Your file " + customFileName + " has been saved to your custom folder @ " + textDocumentPath);
                 }
             }
         }
@@ -179,7 +179,7 @@ public class SaveToTextFile : MonoBehaviour
     public void DeleteTextFile()
     {
         customFileName = fileNameInputField.text;
-        string textDocumentName = directoryName + customFileName + ".txt";
+        string textDocumentPath = directoryName + customFileName + ".txt";
 
         if (customFileName == null || customFileName == "")
         {
@@ -187,9 +187,9 @@ public class SaveToTextFile : MonoBehaviour
         }
         else
         {
-            if (File.Exists(textDocumentName))
+            if (File.Exists(textDocumentPath))
             {
-                File.Delete(textDocumentName);
+                File.Delete(textDocumentPath);
                 fileNameInputFeedback.text = "The file " + customFileName + " has been found and deleted";
             }
             else
@@ -224,8 +224,8 @@ public class SaveToTextFile : MonoBehaviour
                 }
                 else
                 {
-                    string textDocumentName = directoryName + customFileName + ".txt";
-                    File.AppendAllText(textDocumentName, contentForTextFile + "\n \n");
+                    string textDocumentPath = directoryName + customFileName + ".txt";
+                    File.AppendAllText(textDocumentPath, contentForTextFile + "\n \n");
                     fileContentInputFeedback.text = "Your content has been added to the file " + customFileName + " saved at the persistent data path @ " + Application.persistentDataPath;
                     Debug.Log("Your content has been added to the file " + customFileName + " saved at the persistent data path @ " + Application.persistentDataPath);
                 }
@@ -238,8 +238,8 @@ public class SaveToTextFile : MonoBehaviour
                 }
                 else
                 {
-                    string textDocumentName = directoryName + customFileName + ".txt";
-                    File.AppendAllText(textDocumentName, contentForTextFile + "\n \n");
+                    string textDocumentPath = directoryName + customFileName + ".txt";
+                    File.AppendAllText(textDocumentPath, contentForTextFile + "\n \n");
                     fileContentInputFeedback.text = "Your content has been added to the file " + customFileName + " @ " + directoryName;
                     Debug.Log("Your content has been added to the file " + customFileName + " @ " + directoryName);
                 }
@@ -249,7 +249,7 @@ public class SaveToTextFile : MonoBehaviour
 
     public void OverwriteTextFile()
     {
-        string textDocumentName = directoryName + customFileName + ".txt";
+        string textDocumentPath = directoryName + customFileName + ".txt";
 
         contentForTextFile = fileContentInputField.text;
 
@@ -267,8 +267,8 @@ public class SaveToTextFile : MonoBehaviour
                 }
                 else
                 {
-                    File.WriteAllText(textDocumentName, "");
-                    File.AppendAllText(textDocumentName, contentForTextFile + "\n \n");
+                    File.WriteAllText(textDocumentPath, "");
+                    File.AppendAllText(textDocumentPath, contentForTextFile + "\n \n");
                     fileContentInputFeedback.text = "Your content has been added to the file " + customFileName + " saved at the persistent data path @ " + Application.persistentDataPath;
                     Debug.Log("Your content has been added to the file " + customFileName + " saved at the persistent data path @ " + Application.persistentDataPath);
                 }
@@ -281,10 +281,73 @@ public class SaveToTextFile : MonoBehaviour
                 }
                 else
                 {
-                    File.WriteAllText(textDocumentName, "");
-                    File.AppendAllText(textDocumentName, contentForTextFile + "\n \n");
-                    fileContentInputFeedback.text = "Your content has been added to the file @ " + textDocumentName;
-                    Debug.Log("Your content has been added to the file @ " + textDocumentName);
+                    File.WriteAllText(textDocumentPath, "");
+                    File.AppendAllText(textDocumentPath, contentForTextFile + "\n \n");
+                    fileContentInputFeedback.text = "Your content has been added to the file @ " + textDocumentPath;
+                    Debug.Log("Your content has been added to the file @ " + textDocumentPath);
+                }
+            }
+        }
+    }
+
+    public void ReadTextFile()
+    {
+        customFileName = fileNameInputField.text;
+
+        // Set default directory to persistent data path if not specified
+        if (directoryName == null || directoryName == "")
+        {
+            directoryName = Application.persistentDataPath + "/";
+        }
+        else
+        {
+            directoryName = Application.persistentDataPath + "/" + customFolderName + "/";
+        }
+
+        // Check for empty file name
+        if (customFileName == null || customFileName == "")
+        {
+            fileNameInputFeedback.text = "Enter a file name";
+        }
+        else
+        {
+            string textDocumentPath = directoryName + customFileName + ".txt";
+
+            // Check if the directory exists
+            if (!Directory.Exists(directoryName))
+            {
+                fileNameInputFeedback.text = "Directory does not exist";
+            }
+            // Check if the file exists
+            else if (!File.Exists(textDocumentPath))
+            {
+                fileNameInputFeedback.text = "File does not exist";
+            }
+            else
+            {
+                try
+                {
+                    // Read the content from the file
+                    string fileContent = File.ReadAllText(textDocumentPath);
+
+                    // Check if the content is not empty
+                    if (!string.IsNullOrEmpty(fileContent))
+                    {
+                        // Display the content
+                        fileContentInputField.text = fileContent;
+                        Debug.Log("File content:\n" + fileContent);
+                    }
+                    else
+                    {
+                        // Provide feedback for empty file
+                        fileContentInputFeedback.text = "The file is empty";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Handle exceptions, if any
+                    fileContentInputFeedback.text = "Error reading the file: " + ex.Message;
+                    Debug.LogError("Error reading the file: " + ex.Message);
                 }
             }
         }
